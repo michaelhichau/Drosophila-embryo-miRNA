@@ -56,6 +56,7 @@ plot1.1 <- sortby_fold_log2[c('embryo.0_1hr.normalized_log2', 'embryo.6_10hr.nor
 
 miRNA_normalized_log2_matrix <- (data.matrix(plot1.1))
 miRNA_heatmap <- pheatmap(miRNA_normalized_log2_matrix,
+                          legend_breaks = c(4, 6, 8, 10, 12, 14, max(miRNA_normalized_log2_matrix)),
                           cluster_row = FALSE, 
                           cluster_cols = FALSE, 
                           fontsize_row = 5,
@@ -64,6 +65,9 @@ miRNA_heatmap <- pheatmap(miRNA_normalized_log2_matrix,
                           angle_col = "0",
                           col = heat.colors(256),
                           scale="none",
+                          main = "",
+                          legend = TRUE,
+                          legend_labels = c("4", "6", "8", "10", "12", "14", "log2(RPM)\n")
 )
 
 
@@ -74,14 +78,18 @@ plot1.2 <- sortby_fold_log2[sortby_fold_log2$embryo.0_1hr.fold_log2 >= 0,][c('em
 
 plot1.2_matrix <- (data.matrix(plot1.2))
 miRNA_heatmap <- pheatmap(plot1.2_matrix, 
-                         cluster_row = FALSE, 
-                         cluster_cols = FALSE, 
-                         fontsize_row = 5,
-                         fontsize_col = 5,
-                         border_color = "transparent",
-                         angle_col = "0",
-                         col = heat.colors(256),
-                         scale="none",
+                          legend_breaks = c(4, 6, 8, 10, 12, 14, max(plot1.2_matrix)),
+                          cluster_row = FALSE, 
+                          cluster_cols = FALSE, 
+                          fontsize_row = 5,
+                          fontsize_col = 5,
+                          border_color = "transparent",
+                          angle_col = "0",
+                          col = heat.colors(256),
+                          scale="none",
+                          main = "",
+                          legend = TRUE,
+                          legend_labels = c("4", "6", "8", "10", "12", "14", "log2(RPM)\n")
 )
 
 
@@ -92,102 +100,19 @@ plot1.3 <- sortby_fold_log2[sortby_fold_log2$embryo.0_1hr.fold_log2 <= 0,][c('em
 
 plot1.3_matrix <- (data.matrix(plot1.3))
 miRNA_heatmap <- pheatmap(plot1.3_matrix, 
-                         cluster_row = FALSE, 
-                         cluster_cols = FALSE, 
-                         fontsize_row = 5,
-                         fontsize_col = 5,
-                         border_color = "transparent",
-                         angle_col = "0",
-                         col = heat.colors(256),
-                         scale="none",
-)
-
-
-
-
-
-
-### plot 2.1 ###
-# sorting order: fold, descending 
-sortby_fold <- miRNA_count[order(- miRNA_count$embryo.0_1hr.fold),]
-# data values: normalized
-plot2.1 <- sortby_fold[c('embryo.6_10hr.normalized', 'embryo.0_1hr.normalized')]
-
-
-miRNA_normalized_matrix <- (data.matrix(plot2.1))
-miRNA_heatmap <- pheatmap(miRNA_normalized_matrix,
+                          legend_breaks = c(4, 6, 8, 10, 12, max(plot1.3_matrix)),
                           cluster_row = FALSE, 
                           cluster_cols = FALSE, 
                           fontsize_row = 5,
-                          fontsize_col = 3,
+                          fontsize_col = 5,
                           border_color = "transparent",
                           angle_col = "0",
                           col = heat.colors(256),
                           scale="none",
-)
-
-
-### plot 2.2 ###
-# sorting order: fold, descending 
-# data values: normalized, fold >= median
-normalized_median = median(miRNA_count$embryo.6_10hr.normalized)
-plot2.2 <- sortby_fold[sortby_fold$embryo.6_10hr.normalized >= normalized_median,][c('embryo.6_10hr.normalized', 'embryo.0_1hr.normalized')]
-
-plot2.2_matrix <- (data.matrix(plot2.2))
-miRNA_heatmap <- pheatmap(plot2.2_matrix, 
-                          cluster_row = FALSE, 
-                          cluster_cols = FALSE, 
-                          fontsize_row = 5,
-                          fontsize_col = 3,
-                          border_color = "transparent",
-                          angle_col = "0",
-                          col = heat.colors(256),
-                          scale="none",
-)
-
-
-### plot 2.3 ###
-# sorting order: fold, descending 
-# data values: normalized, fold <= 0
-plot2.3 <- sortby_fold[sortby_fold$embryo.6_10hr.normalized <= normalized_median,][c('embryo.6_10hr.normalized', 'embryo.0_1hr.normalized')]
-
-plot2.3_matrix <- (data.matrix(plot2.3))
-miRNA_heatmap <- pheatmap(plot2.3_matrix, 
-                          cluster_row = FALSE, 
-                          cluster_cols = FALSE, 
-                          fontsize_row = 5,
-                          fontsize_col = 3,
-                          border_color = "transparent",
-                          angle_col = "0",
-                          col = heat.colors(256),
-                          scale="none",
+                          main = "",
+                          legend = TRUE,
+                          legend_labels = c("4", "6", "8", "10", "12", "log2(RPM)\n")
 )
 
 
 
-
-
-
-
-#loading CHD.xlsx
-#into data frames
-#install.packages("xlsx") # First install the xlsx R package
-#library(xlsx) # load the xlsx package
-#CHD_xlsx <- read.xlsx("CHD.xlsx", sheetIndex = 1) # read in the data from sheet number 1
-
-# Exercise 7
-check_or_compare_10 <- function(x){
-  if (x > 10) 
-    print('Our variable is larger than 10')
-  else if (x < 10)
-    print('Our variable is smaller than 10')
-  else if (x == 10) 
-    print('Our variable is equal to 10')
-}
-
-our_var <- 9
-check_or_compare_10(our_var)
-our_var <- 10
-check_or_compare_10(our_var)
-our_var <- 11
-check_or_compare_10(our_var)
