@@ -45,13 +45,15 @@ miRNA_count$embryo.0_1hr.fold_log2 <- log2(miRNA_count$embryo.6_10hr.count/miRNA
 
 ### plots ###
 
+# sorting order: 6_10hr.count - 0_1hr.count, descending 
+sorted_data <- miRNA_count[order(- (miRNA_count$embryo.6_10hr.count - miRNA_count$embryo.0_1hr.count)),]
+# sorting order: fold_log2, descending 
+sorted_data <- miRNA_count[order(- miRNA_count$embryo.0_1hr.fold_log2),]
 
 
 ### plot 1.1 ###
-# sorting order: fold_log2, descending 
-sortby_fold_log2 <- miRNA_count[order(- miRNA_count$embryo.0_1hr.fold_log2),]
 # data values: normalized_log2
-plot1.1 <- sortby_fold_log2[c('embryo.0_1hr.normalized_log2', 'embryo.6_10hr.normalized_log2')]
+plot1.1 <- sorted_data[c('embryo.0_1hr.normalized_log2', 'embryo.6_10hr.normalized_log2')]
 
 
 miRNA_normalized_log2_matrix <- (data.matrix(plot1.1))
@@ -72,9 +74,8 @@ miRNA_heatmap <- pheatmap(miRNA_normalized_log2_matrix,
 
 
 ### plot 1.2 ###
-# sorting order: fold_log2, descending 
 # data values: normalized_log2, fold_log2 >= 0
-plot1.2 <- sortby_fold_log2[sortby_fold_log2$embryo.0_1hr.fold_log2 >= 0,][c('embryo.0_1hr.normalized_log2', 'embryo.6_10hr.normalized_log2')]
+plot1.2 <- sorted_data[sorted_data$embryo.0_1hr.fold_log2 >= 0,][c('embryo.0_1hr.normalized_log2', 'embryo.6_10hr.normalized_log2')]
 
 plot1.2_matrix <- (data.matrix(plot1.2))
 miRNA_heatmap <- pheatmap(plot1.2_matrix, 
@@ -94,9 +95,8 @@ miRNA_heatmap <- pheatmap(plot1.2_matrix,
 
 
 ### plot 1.3 ###
-# sorting order: fold_log2, descending 
 # data values: normalized_log2, fold_log2 <= 0
-plot1.3 <- sortby_fold_log2[sortby_fold_log2$embryo.0_1hr.fold_log2 <= 0,][c('embryo.0_1hr.normalized_log2', 'embryo.6_10hr.normalized_log2')]
+plot1.3 <- sorted_data[sorted_data$embryo.0_1hr.fold_log2 <= 0,][c('embryo.0_1hr.normalized_log2', 'embryo.6_10hr.normalized_log2')]
 
 plot1.3_matrix <- (data.matrix(plot1.3))
 miRNA_heatmap <- pheatmap(plot1.3_matrix, 
@@ -113,6 +113,8 @@ miRNA_heatmap <- pheatmap(plot1.3_matrix,
                           legend = TRUE,
                           legend_labels = c("4", "6", "8", "10", "12", "log2(RPM)\n")
 )
+
+
 
 
 
